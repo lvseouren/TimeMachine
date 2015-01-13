@@ -74,8 +74,21 @@ void main()
 			cin.clear();
 			cin.sync();//防止输入"ee"时出错
 			
-			cin.getline(job,1024);
-			if(job)
+			while(1)
+			{
+				cin.getline(job,1024);
+				string safeInputForJobStr = job;
+				if(!safeInputForJobStr.empty())
+				{
+					break;
+				}
+				else
+				{
+					cout<<"输入为空，请重新输入将要进行的工作：";
+				}
+
+			}
+			if(1)
 			{
 				Itime currentTime = GetCurrentTime();
 				if((currentTime-lastRecordTime).ItimeToSecond() > BATTIMESWITCH)
