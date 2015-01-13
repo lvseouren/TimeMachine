@@ -4,6 +4,7 @@
 #include<vector>
 #include<stdio.h>
 #include<time.h>
+#include"RecordFileReader.h"
 
 //end lib 
 
@@ -138,6 +139,26 @@ void main()
 				fopen_s(&file,filename.c_str(),"a");
 				(*RecordArray.back()).SaveToFile(file);
 				fclose(file);
+			}
+			//test filereader
+			else if(controlFlag == 'r')
+			{
+				cout<<"开始测试文件读取功能,以下为读取的记录："<<endl;
+				fopen_s(&file,filename.c_str(),"r");
+				RecordFileReader reader(file);
+			
+				vector<Record> test = reader.GetRecordArray();
+				fclose(file);
+				vector<Record>::iterator recordIter;
+				int count=1;
+				for(recordIter = test.begin();recordIter!=test.end();++recordIter)
+				{
+					//TODO：重载record类的<<操作符
+					cout<<"序号"<<count++<<"——"<<*recordIter;
+				}
+
+				cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
+
 			}
 			else
 			{

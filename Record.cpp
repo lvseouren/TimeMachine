@@ -37,3 +37,10 @@ string Record::GetTimeString()
 	return string(StartTimeStr+string("~")+endTimeStr);
 
 }
+
+ostream& operator<<(ostream& os,const Record& record)
+{
+	//TODO:重载Itime类的<<操作符。。
+	os<<"任务："<<record.jobDescription<<endl;
+	return os;
+}

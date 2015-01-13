@@ -4,7 +4,11 @@
 #include"Itime.h"
 #include<string>
 #include<stdio.h>
+#include<iostream>
 using std::string;
+using std::ostream;
+using std::cout;
+using std::endl;
 
 class Record
 {
@@ -16,6 +20,9 @@ public:
 	void SetJob(string jobStr);
 	void SetEndTime(Itime T);
 	void SaveToFile(FILE*);
+
+	//жиди<<
+	friend ostream& operator<<(ostream &,const Record& );
 private:
 	Itime startTime;
 	Itime endTime;
