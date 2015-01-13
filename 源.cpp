@@ -46,7 +46,7 @@ Itime GetCurrentTime()//放到time.h中去
 
 Itime lastRecordTime;
 STATE currentState;
-const int BATTIMESWITCH = 500;//这是个以秒为单位的时间，超过这个时间不记录就会自动生成一条Btime记录
+const int BATTIMESWITCH = 600;//这是个以秒为单位的时间，超过这个时间不记录就会自动生成一条Btime记录
 //end global variable
 
 void main()
