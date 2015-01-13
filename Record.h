@@ -33,4 +33,6 @@ private:
 	string GetTimeString();
 };
 
+Itime StrConvertToItime(const string&);
+
 #endif

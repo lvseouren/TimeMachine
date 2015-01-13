@@ -1,6 +1,8 @@
 #ifndef ITIME_H_
 #define ITIME_H_
 #include<string>
+#include<iostream>
+using std::ostream;
 using std::string;
 struct Itime
 {
@@ -22,6 +24,8 @@ struct Itime
 	string ItimeLenToString();
 	//此函数用来返回文件名字符串
 	string ItimeToFileString();
+
+	friend ostream& operator<<(ostream&,Itime);
 };
 
 #endif

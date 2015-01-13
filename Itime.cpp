@@ -91,3 +91,43 @@ string Itime::ItimeToFileString()
 	result = TimeYearStr+string("年")+TimeMonthStr+string("月")+TimeDayStr+string("日.txt");
 	return result;
 }
+
+
+ostream& operator<<(ostream& os,Itime time)
+{
+	os<<time.hour<<":"<<time.minute<<":"<<time.second;
+	return os;
+}
+
+Itime StrConvertToItime(const string&timeStr)
+{
+	int startHour;
+	int endHour;
+	int startMin;
+	int endMin;
+	int startSec;
+	int endSec;
+
+	//以下算法的前提是,':'只占用一个字符的长度
+	string test = ":";
+	int lengh = test.length();
+
+	startHour = 0;
+	endHour = timeStr.find(':');
+
+	startMin = endHour+1;
+	endMin = timeStr.rfind(':')-1;
+
+	startSec = endMin+2;
+	endSec = timeStr.length()-1;
+
+	string hourStr = timeStr.substr(startHour,endHour);
+	string minStr = timeStr.substr(startMin,endMin);
+	string secStr = timeStr.substr(startSec,endSec);
+
+	int hour = atoi(hourStr.c_str());
+	int min = atoi(minStr.c_str());
+	int sec = atoi(secStr.c_str());
+
+	return Itime(0,0,0,hour,min,sec);
+}

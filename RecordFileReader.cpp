@@ -1,5 +1,7 @@
 #include"RecordFileReader.h"
 
+
+
 RecordFileReader::RecordFileReader()
 {
 }
@@ -63,7 +65,40 @@ void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& 
 {
 	//TODO:实现字符串中截取以上数据的算法（两步，第一步：截取对应的字符串，第二部：字符串中取得int型数据）
 	//现在先测试一下read的功能，所以这里先随意返回一些数据
-	startTime = Itime(0,0,0,0,0,0);
-	endTime = startTime;
-	jobDescription = "test";
+	//startTime = Itime(0,0,0,0,0,0);
+	//endTime = startTime;
+	//jobDescription = "test";
+	string startTimeStr;
+	string endTimeStr;
+	
+	int indexBeginStartTimeStr;//开始时间字符串的第一个字符的所在位置
+	int indexEndStartTimeStr;//开始时间字符串的最后一个字符的所在位置，即'~'符号的起始位置的前一个位置（如果~长度为一个字符）
+
+	int indexBeginEndTimeStr;
+	int indexEndEndTimeStr;
+
+	int indexBeginJobStr;
+	int indexEndJobStr;
+	
+	indexBeginStartTimeStr = 0;
+	indexEndStartTimeStr = recordStr.find('~',0);
+
+	//test lenth of “——”
+	string temp = "——";
+	int length = temp.length();
+	indexBeginEndTimeStr = indexEndStartTimeStr+1;
+	indexEndEndTimeStr = recordStr.find("——")-1;
+
+	indexBeginJobStr = recordStr.rfind("——")+length;
+	indexEndJobStr = recordStr.length()-2;
+
+	startTimeStr = recordStr.substr(indexBeginStartTimeStr,indexEndStartTimeStr);
+	endTimeStr = recordStr.substr(indexBeginEndTimeStr,indexEndEndTimeStr-indexBeginEndTimeStr+1);
+	jobDescription = recordStr.substr(indexBeginJobStr,indexEndJobStr-indexBeginJobStr+1);
+
+	//TODO:在添加一个函数——输入时间字符串，返回Itime对象
+	startTime = StrConvertToItime(startTimeStr);
+	endTime = StrConvertToItime(endTimeStr);
+
 }
+

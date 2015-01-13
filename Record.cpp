@@ -41,6 +41,7 @@ string Record::GetTimeString()
 ostream& operator<<(ostream& os,const Record& record)
 {
 	//TODO:重载Itime类的<<操作符。。
+	os<<record.startTime<<"~"<<record.endTime<<endl;
 	os<<"任务："<<record.jobDescription<<endl;
 	return os;
 }
