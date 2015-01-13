@@ -1,2 +1,7 @@
 *.tlog
 Debug\
+*.log
+*.obj
+*.pdb
+*.idb
+*.lastbuildstate
