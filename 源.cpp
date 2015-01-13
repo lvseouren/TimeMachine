@@ -54,7 +54,8 @@ void main()
 	currentState=NORECORD;
 	lastRecordTime = GetCurrentTime();
 	cout<<"welcome"<<endl;
-	string job;
+	/*string job;*/
+	char* job = new char[1024];
 	char controlFlag;
 	vector<Record*> RecordArray;
 	FILE* file = NULL;
@@ -62,7 +63,7 @@ void main()
 	string filename = "D:\\文档\\时光机\\";//todo:将文件名称改为当天的日期
 	filename = filename+lastRecordTime.ItimeToFileString();
 	
-
+	char *safeInput = new char[128];//用来过滤结束讯号的输入
 	bool work = true;
 	while(work)
 	{
@@ -71,8 +72,9 @@ void main()
 			cout<<"请输入将要进行的工作：";
 			cin.clear();
 			cin.sync();//防止输入"ee"时出错
-			cin>>job;
-			if(job.c_str())
+			
+			cin.getline(job,1024);
+			if(job)
 			{
 				Itime currentTime = GetCurrentTime();
 				if((currentTime-lastRecordTime).ItimeToSecond() > BATTIMESWITCH)
@@ -98,7 +100,19 @@ void main()
 		}
 		if(currentState == RECORDING)
 		{
-			cin>>controlFlag;
+			cin.clear();
+			cin.sync();//防止输入"ee"时出错
+			
+			cin.getline(safeInput,128);
+			string tempStr = safeInput;
+			if(tempStr.length()!=1)//如果输入多余一个字符，则相当于输入不合法,'a'与'q''e'都不相同，故为不合法
+			{
+				controlFlag = 'a';
+			}
+			else
+			{
+				controlFlag = tempStr[0];
+			}
 			if(controlFlag=='e')
 			{
 				currentState=NORECORD;
@@ -127,11 +141,17 @@ void main()
 			}
 			else
 			{
-				cout<<"illeagle input:"<<controlFlag<<"\t"<<"计时中，请输入 e 来结束当前工作的计时：";
+				cout<<"输入不合法:"<<tempStr<<endl<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
 			}
 		}
 	}
+	//start finit
+	delete[] job;
+	delete[] safeInput;
+	//end finit
+
 	cout<<"保存当前记录，程序正在关闭..."<<endl;
+	cout<<"话说大哥麻烦你快点把我的GUI做出来好吗..."<<endl;
 	//等待两秒，关闭程序
 	Itime t1= GetCurrentTime();
 	while(1)
