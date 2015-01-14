@@ -70,10 +70,7 @@ void RecordFileReader::Parse()
 void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& endTime,string& jobDescription)
 {
 	//TODO:实现字符串中截取以上数据的算法（两步，第一步：截取对应的字符串，第二部：字符串中取得int型数据）
-	//现在先测试一下read的功能，所以这里先随意返回一些数据
-	//startTime = Itime(0,0,0,0,0,0);
-	//endTime = startTime;
-	//jobDescription = "test";
+
 	string startTimeStr;
 	string endTimeStr;
 	
@@ -92,6 +89,7 @@ void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& 
 	//test lenth of “——”
 	string temp = "——";
 	int length = temp.length();
+	//TODO:当文本中不存在“——”时，程序会抛出异常
 	indexBeginEndTimeStr = indexEndStartTimeStr+1;
 	indexEndEndTimeStr = recordStr.find("——")-1;
 

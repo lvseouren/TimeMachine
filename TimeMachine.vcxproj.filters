@@ -27,6 +27,9 @@
     <ClCompile Include="RecordFileReader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RecordStatistic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Itime.h">
@@ -36,6 +39,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RecordFileReader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RecordStatistic.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

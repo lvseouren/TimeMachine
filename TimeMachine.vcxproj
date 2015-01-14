@@ -67,12 +67,14 @@
     <ClCompile Include="Itime.cpp" />
     <ClCompile Include="Record.cpp" />
     <ClCompile Include="RecordFileReader.cpp" />
+    <ClCompile Include="RecordStatistic.cpp" />
     <ClCompile Include="源.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Itime.h" />
     <ClInclude Include="Record.h" />
     <ClInclude Include="RecordFileReader.h" />
+    <ClInclude Include="RecordStatistic.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

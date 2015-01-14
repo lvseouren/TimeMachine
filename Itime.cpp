@@ -13,6 +13,27 @@ Itime Itime::operator-(const Itime& rhs)
 	int hour_differ = (hour-rhs.hour);
 	int min_differ = (minute-rhs.minute);
 	int sec_differ = second-rhs.second;
+	//TODO:修正负数值
+	if(sec_differ<0)
+	{
+		sec_differ+=60;
+		--min_differ;
+	}
+	if(min_differ<0)
+	{
+		min_differ+=60;
+		--hour_differ;
+	}
+	if(hour_differ<0)
+	{
+		hour_differ+=24;
+		--day_differ;
+	}
+	//TODO:day，month和year的负数修正并未考虑，将来需要对此进行修正
+	if(day_differ<0)
+	{
+		day_differ = 0;
+	}
 	return Itime(year_differ,mon_differ,day_differ,hour_differ,min_differ,sec_differ);
 }
 int Itime::ItimeToSecond()
@@ -97,6 +118,23 @@ ostream& operator<<(ostream& os,Itime time)
 {
 	os<<time.hour<<":"<<time.minute<<":"<<time.second;
 	return os;
+}
+Itime Itime::operator+=(const Itime& rhs)
+{
+	int h = hour+rhs.hour;
+	int m = minute+rhs.minute;
+	int s = second+rhs.second;
+	if(s>=60)
+	{
+		s-=60;
+		++m;
+	}
+	if(m>=60)
+	{
+		m-=60;
+		++h;
+	}
+	return Itime(year+=rhs.year,month+=rhs.month,day+=rhs.day,hour=h,minute=m,second=s);
 }
 
 Itime StrConvertToItime(const string&timeStr)
