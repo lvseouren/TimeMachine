@@ -96,9 +96,9 @@ void main()
 					//todo:B时间自动记录
 					Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦");
 					lastRecordTime = currentTime;
-					/*fopen_s(&file,filename.c_str(),"a");*/
+					
 					BTimeRecord->SaveToFile(file,"a");
-					/*fclose(file);*/
+
 					RecordArray.push_back(BTimeRecord);
 					
 				}
@@ -135,9 +135,9 @@ void main()
 				(*RecordArray.back()).SetEndTime(currentTime);
 				
 				//todo:将该条记录写到文件中去
-				/*fopen_s(&file,filename.c_str(),"a");*/
+				
 				(*RecordArray.back()).SaveToFile(file,"a");
-				/*fclose(file);*/
+				
 				//算了， 最后再统一写到文件中去吧
 			}
 			else if(controlFlag == 'q')
@@ -149,19 +149,19 @@ void main()
 				(*RecordArray.back()).SetEndTime(currentTime);
 				
 				//todo:将该条记录写到文件中去
-				/*fopen_s(&file,filename.c_str(),"a");*/
+				
 				(*RecordArray.back()).SaveToFile(file,"a");
-				/*fclose(file);*/
+				
 			}
 			//test filereader
 			else if(controlFlag == 'r')
 			{
 				cout<<"开始测试文件读取功能,以下为读取的记录："<<endl;
-				fopen_s(&file,filename.c_str(),"r");
-				RecordFileReader reader(file);
+				/*fopen_s(&file,filename.c_str(),"r");*/
+				RecordFileReader reader(filename);
 			
 				vector<Record> test = reader.GetRecordArray();
-				fclose(file);
+				/*fclose(file);*/
 				vector<Record>::iterator recordIter;
 				int count=1;
 				for(recordIter = test.begin();recordIter!=test.end();++recordIter)

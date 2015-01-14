@@ -18,7 +18,8 @@ using std::cin;
 class RecordFileReader
 {
 private:
-	FILE* file;//file to read 
+	//FILE* file;//file to read 
+	string filename;//以文件名代替FILE*使得fopen与fclose能够被整合进来
 	vector<string> recordStrArray;
 	vector<Record> recordArray;
 private:
@@ -27,12 +28,13 @@ private:
 	void Read();//从文件中读取Record数据，一行读到一个string中去。
 public:
 	RecordFileReader();
-	RecordFileReader(FILE*);
+	/*RecordFileReader(FILE*);*/
+	RecordFileReader(const string&);
 	~RecordFileReader();
 
 public:
 	vector<Record> GetRecordArray();//return the record after reading the file;call Read() & Parse();
-	void SetFileToRead(FILE*);
+	void SetFileToRead(const string&);
 	
 };
 

@@ -5,7 +5,10 @@
 RecordFileReader::RecordFileReader()
 {
 }
-RecordFileReader::RecordFileReader(FILE* pf):file(pf)
+//RecordFileReader::RecordFileReader(FILE* pf):file(pf)
+//{
+//}
+RecordFileReader::RecordFileReader(const string& FileName):filename(FileName)
 {
 }
 RecordFileReader::~RecordFileReader()
@@ -20,14 +23,17 @@ vector<Record> RecordFileReader::GetRecordArray()
 	return recordArray;
 }
 
-void RecordFileReader::SetFileToRead(FILE* pf)
+void RecordFileReader::SetFileToRead(const string& fileName)
 {
-	file = pf;
+	filename = fileName;
 }
 
 void RecordFileReader::Read()
 {
-	cout<<"以r方式打开，文件指针位置："<<ftell(file)<<endl;
+	FILE* file;
+	fopen_s(&file,filename.c_str(),"r"); 
+
+	/*cout<<"以r方式打开，文件指针位置："<<ftell(file)<<endl;*/
 	char* tempCharArray = new char[1024];
 	string recordStr;//这里有个问题，一行最大不能超过1024个字节，否则就会出bug，但暂时这样没问题，因为一行记录不可能会超过1024个字节
 	//PS:这里可能会出错，我不确定是否最后只有一个有效的recordStr，因为我只用到了一个char*，也就是那块区域的数据每次都被赋予了新值，我只希望recordStrArray存的是值而不是地址。
@@ -36,7 +42,7 @@ void RecordFileReader::Read()
 		recordStr = tempCharArray;
 		recordStrArray.push_back(recordStr);
 	}
-
+	fclose(file);
 }
 
 void RecordFileReader::Parse()
