@@ -1,4 +1,5 @@
 #include"Itime.h"
+extern string filename;
 
 Itime::Itime(int y,int m,int d,int hour,int min,int sec):year(y),month(m),day(d),hour(hour),minute(min),second(sec)
 {
@@ -73,6 +74,9 @@ string Itime::ItimeLenToString()
 	if(hour<0)
 	{
 		hour+=24;
+		//说明跨天了，将记录写到新的文件中
+		Itime curTime = GetCurrentTime();
+		filename = "D:\\文档\\时光机\\"+ curTime.ItimeToFileString();
 	}
 	if(minute<0)
 	{
@@ -168,4 +172,13 @@ Itime StrConvertToItime(const string&timeStr)
 	int sec = atoi(secStr.c_str());
 
 	return Itime(0,0,0,hour,min,sec);
+}
+
+Itime GetCurrentTime()//放到time.h中去
+{
+	time_t now;
+	time(&now);
+	struct tm* t = new tm();
+	localtime_s(t,&now);
+	return Itime(t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
 }

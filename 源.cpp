@@ -35,16 +35,7 @@ enum STATE
 
 
 //start function
-Itime GetCurrentTime()//放到time.h中去
-{
-	time_t now;
-	time(&now);
-	struct tm* t = new tm();
-	localtime_s(t,&now);
-	return Itime(t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
-}
 
-//void PrintStastisticToFile(string filename);//输入统计数据
 //end function
 
 
@@ -53,7 +44,6 @@ string filename;
 Itime lastRecordTime;
 STATE currentState;
 const int BATTIMESWITCH = 600;//这是个以秒为单位的时间，超过这个时间不记录就会自动生成一条Btime记录
-
 
 //end global variable
 

@@ -5,3 +5,9 @@ Debug\
 *.pdb
 *.idb
 *.lastbuildstate
+*.unsuccessfulbuild
+*.exe
+*.ilk
+*.opensdf
+*.sdf
+*.suo

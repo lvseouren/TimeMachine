@@ -2,6 +2,7 @@
 #define ITIME_H_
 #include<string>
 #include<iostream>
+#include<time.h>
 using std::ostream;
 using std::string;
 struct Itime
@@ -29,5 +30,6 @@ struct Itime
 
 	friend ostream& operator<<(ostream&,Itime);
 };
+Itime GetCurrentTime();
 
 #endif
