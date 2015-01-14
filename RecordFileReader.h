@@ -28,7 +28,6 @@ private:
 	void Read();//从文件中读取Record数据，一行读到一个string中去。
 public:
 	RecordFileReader();
-	/*RecordFileReader(FILE*);*/
 	RecordFileReader(const string&);
 	~RecordFileReader();
 
