@@ -44,7 +44,7 @@ Itime GetCurrentTime()//放到time.h中去
 
 
 //start global variable
-
+string filename;
 Itime lastRecordTime;
 STATE currentState;
 const int BATTIMESWITCH = 600;//这是个以秒为单位的时间，超过这个时间不记录就会自动生成一条Btime记录
@@ -61,7 +61,7 @@ void main()
 	vector<Record*> RecordArray;
 	FILE* file = NULL;
 
-	string filename = "D:\\文档\\时光机\\";//todo:将文件名称改为当天的日期
+	filename = "D:\\文档\\时光机\\";//todo:将文件名称改为当天的日期
 	filename = filename+lastRecordTime.ItimeToFileString();
 	
 	char *safeInput = new char[128];//用来过滤结束讯号的输入
@@ -96,9 +96,9 @@ void main()
 					//todo:B时间自动记录
 					Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦");
 					lastRecordTime = currentTime;
-					fopen_s(&file,filename.c_str(),"a");
-					BTimeRecord->SaveToFile(file);
-					fclose(file);
+					/*fopen_s(&file,filename.c_str(),"a");*/
+					BTimeRecord->SaveToFile(file,"a");
+					/*fclose(file);*/
 					RecordArray.push_back(BTimeRecord);
 					
 				}
@@ -135,9 +135,9 @@ void main()
 				(*RecordArray.back()).SetEndTime(currentTime);
 				
 				//todo:将该条记录写到文件中去
-				fopen_s(&file,filename.c_str(),"a");
-				(*RecordArray.back()).SaveToFile(file);
-				fclose(file);
+				/*fopen_s(&file,filename.c_str(),"a");*/
+				(*RecordArray.back()).SaveToFile(file,"a");
+				/*fclose(file);*/
 				//算了， 最后再统一写到文件中去吧
 			}
 			else if(controlFlag == 'q')
@@ -149,9 +149,9 @@ void main()
 				(*RecordArray.back()).SetEndTime(currentTime);
 				
 				//todo:将该条记录写到文件中去
-				fopen_s(&file,filename.c_str(),"a");
-				(*RecordArray.back()).SaveToFile(file);
-				fclose(file);
+				/*fopen_s(&file,filename.c_str(),"a");*/
+				(*RecordArray.back()).SaveToFile(file,"a");
+				/*fclose(file);*/
 			}
 			//test filereader
 			else if(controlFlag == 'r')
