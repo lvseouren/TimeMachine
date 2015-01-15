@@ -1,4 +1,5 @@
 //TODO:重构main函数，使用extract method方法。
+//TODO:统计输出中增加总计时间这一项
 //start lib 
 #include<iostream>
 #include<string>
@@ -55,7 +56,7 @@ void main()
 {
 	currentState=NORECORD;
 	lastRecordTime = GetCurrentTime();
-	cout<<"welcome"<<endl;
+	cout<<"welcome to TIMEMACHINE!"<<endl;
 	/*string job;*/
 	char* job = new char[1024];
 	char controlFlag;
