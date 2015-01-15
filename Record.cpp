@@ -32,7 +32,7 @@ void Record::SaveToFile(const string& filename,const string& openType)
 	}
 	else
 	{
-		result = timeStr+"——("+timeLenStr+")——"+jobDescription+"【Z】\n";
+		result = timeStr+"——("+timeLenStr+")——"+jobDescription+"\n";
 	}
 	FILE* file;
 	fopen_s(&file,filename.c_str(),openType.c_str());
@@ -95,12 +95,14 @@ void Record::GetTypeFromJobStr()
 		else//如果输入除了以上的字符串，则视为杂项
 		{
 			m_workType = SUNDRY;
+			
 		}
 	}
 	else//用户没有输入【】部分，默认为杂项
 	{
 		/*string typeStr = "Z";*/
 		m_workType = SUNDRY;
+		jobDescription+="【Z】";
 	}
 	
 

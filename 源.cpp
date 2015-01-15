@@ -1,4 +1,5 @@
 //TODO:重构main函数，使用extract method方法。
+//TODO:统计输出中增加总计时间这一项
 //start lib 
 #include<iostream>
 #include<string>
@@ -34,8 +35,12 @@ enum STATE
 
 
 
-//start function
-
+//start function declare
+void DoStatistic();//t
+void TestRead();//r
+void quit(vector<Record*>& RecordArray);//q
+void SaveRecord(vector<Record*>& RecordArray);//e
+void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime);//B
 //end function
 
 
@@ -51,7 +56,7 @@ void main()
 {
 	currentState=NORECORD;
 	lastRecordTime = GetCurrentTime();
-	cout<<"welcome"<<endl;
+	cout<<"welcome to TIMEMACHINE!"<<endl;
 	/*string job;*/
 	char* job = new char[1024];
 	char controlFlag;
@@ -90,14 +95,7 @@ void main()
 			if((currentTime-lastRecordTime).ItimeToSecond() > BATTIMESWITCH)
 			{
 				//todo:B时间自动记录
-				Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦【B】");
-				BTimeRecord->SetJob("这段时间啥事没做，注意了，你在浪费时间哦【B】");
-				lastRecordTime = currentTime;
-					
-				BTimeRecord->SaveToFile(filename,"a");
-
-				RecordArray.push_back(BTimeRecord);
-					
+				AutoRecord(RecordArray,currentTime);
 			}
 				
 			Record *newRecord = new Record();
@@ -123,72 +121,33 @@ void main()
 			{
 				controlFlag = tempStr[0];
 			}
+
+			//以下为输入处理逻辑
 			if(controlFlag=='e')
 			{
-				currentState=NORECORD;
-				Itime currentTime = GetCurrentTime();
-				lastRecordTime = currentTime;
-				(*RecordArray.back()).SetEndTime(currentTime);
-				
-				//todo:将该条记录写到文件中去
-				
-				(*RecordArray.back()).SaveToFile(filename,"a");
-				
-				//算了， 最后再统一写到文件中去吧
+				//停止计时并保存当前记录
+				SaveRecord(RecordArray);
 			}
 			else if(controlFlag == 'q')
 			{
 				work = false;
-				currentState=NORECORD;
-				Itime currentTime = GetCurrentTime();
-				lastRecordTime = currentTime;
-				(*RecordArray.back()).SetEndTime(currentTime);
-				
-				//todo:将该条记录写到文件中去
-				
-				(*RecordArray.back()).SaveToFile(filename,"a");
-				
+				//保存并关闭软件
+				quit(RecordArray);
 			}
 			//test filereader
 			else if(controlFlag == 'r')
 			{
-				cout<<"开始测试文件读取功能,以下为读取的记录："<<endl;
-
-				RecordFileReader reader(filename);
-			
-				vector<Record> test = reader.GetRecordArray();
-				
-				vector<Record>::iterator recordIter;
-				int count=1;
-				for(recordIter = test.begin();recordIter!=test.end();++recordIter)
-				{
-					//TODO：重载record类的<<操作符
-					cout<<"序号"<<count++<<"——"<<*recordIter;
-				}
-
-				cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
-
+				//测试记录读取器功能
+				TestRead();
 			}
 			else if(controlFlag == 't')//统计，将结果写入到当日统计文件中去
 			{
-				//TODO:remove this
-				/*string tempFile = "D:\\文档\\时光机\\2015年1月13日.txt";*/
-				RecordFileReader reader(filename);
-			
-				vector<Record> todayRecordArray = reader.GetRecordArray();
-
-				RecordStatistic RecStatter;
-				RecStatter.makeStatistic(todayRecordArray);
-				
-
-				//将数据写入到文件中
-				//TODO: 统计哪天的数据就保存到哪天的统计文件中去
-				string stFilename = "D:\\文档\\时光机\\统计\\";
-				stFilename += lastRecordTime.ItimeToFileString();
-				RecStatter.PrintResult(stFilename);
+				//进行统计：
+				DoStatistic();
 			}
 			else
 			{
+				//不合法输入
 				cout<<"输入不合法:"<<tempStr<<endl<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
 			}
 		}
@@ -208,4 +167,79 @@ void main()
 		if((t2-t1).ItimeToSecond()>2)
 			break;
 	}
+}
+
+//以下为从main中提取出来的函数
+void DoStatistic()
+{
+	RecordFileReader reader(filename);
+			
+	vector<Record> todayRecordArray = reader.GetRecordArray();
+
+	RecordStatistic RecStatter;
+	RecStatter.makeStatistic(todayRecordArray);
+				
+
+	//将数据写入到文件中
+	//TODO: 统计哪天的数据就保存到哪天的统计文件中去
+	string stFilename = "D:\\文档\\时光机\\统计\\";
+	stFilename += lastRecordTime.ItimeToFileString();
+	RecStatter.PrintResult(stFilename);
+
+	cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
+}
+
+void TestRead()
+{
+	cout<<"开始测试文件读取功能,以下为读取的记录："<<endl;
+
+	RecordFileReader reader(filename);
+			
+	vector<Record> test = reader.GetRecordArray();
+				
+	vector<Record>::iterator recordIter;
+	int count=1;
+	for(recordIter = test.begin();recordIter!=test.end();++recordIter)
+	{
+		//TODO：重载record类的<<操作符
+		cout<<"序号"<<count++<<"——"<<*recordIter;
+	}
+
+	cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
+}
+
+void quit(vector<Record*>& RecordArray)//q
+{
+	currentState=NORECORD;
+	Itime currentTime = GetCurrentTime();
+	lastRecordTime = currentTime;
+	(*RecordArray.back()).SetEndTime(currentTime);
+				
+	//todo:将该条记录写到文件中去
+				
+	(*RecordArray.back()).SaveToFile(filename,"a");
+}
+
+void SaveRecord(vector<Record*>& RecordArray)//e
+{
+	currentState=NORECORD;
+	Itime currentTime = GetCurrentTime();
+	lastRecordTime = currentTime;
+	(*RecordArray.back()).SetEndTime(currentTime);
+				
+	//todo:将该条记录写到文件中去
+				
+	(*RecordArray.back()).SaveToFile(filename,"a");			
+}
+
+//超过时间自动生成B记录
+void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
+{
+	Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦【B】");
+	BTimeRecord->SetJob("这段时间啥事没做，注意了，你在浪费时间哦【B】");
+	lastRecordTime = currentTime;
+					
+	BTimeRecord->SaveToFile(filename,"a");
+
+	RecordArray.push_back(BTimeRecord);
 }
