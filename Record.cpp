@@ -64,46 +64,67 @@ void Record::GetTypeFromJobStr()
 		if(typeStr.compare("L") == 0)
 		{
 			m_workType = LEARN;
+			workStr = "【L】";
 		}
 		else if(typeStr.compare("W") == 0)
 		{
 			m_workType = WRITE;
+			workStr = "【W】";
 		}
 		else if(typeStr.compare("R") == 0)
 		{
 			m_workType = READ;
+			workStr = "【R】";
 		}
 		else if(typeStr.compare("T") == 0)
 		{
 			m_workType = TRAIN;
+			workStr = "【T】";
 		}
 		else if(typeStr.compare("P") == 0)
 		{
 			m_workType = ENTERTAINMENT;
+			workStr = "【P】";
 		}
 		else if(typeStr.compare("WK") == 0)
 		{
 			m_workType = WORK;
+			workStr = "【WK】";
 		}
 		else if(typeStr.compare("C") == 0)
 		{
 			m_workType = CODING;
+			workStr = "【C】";
 		}
 		else if(typeStr.compare("B") == 0)
 		{
 			m_workType = WASTETIME;
+			workStr = "【B】";
 		}
 		else//如果输入除了以上的字符串，则视为杂项
 		{
 			m_workType = SUNDRY;
-			
+			workStr = "【Z】";	
 		}
+		//TODO:去除jobDescription中的【】
+		int idxThrowStart = idxStart-3;
+		int idxThrowEnd = idxEnd+3;
+		int jobStrEnd = jobDescription.length()-1;
+		string leftJobStr;
+		string rightJobStr; 
+		if(idxThrowEnd <= jobStrEnd)//如果【】后面还有字符，则加到jobDescription中去。
+		{
+			rightJobStr = jobDescription.substr(idxThrowEnd,jobStrEnd-idxThrowEnd+ 1);
+		}
+		leftJobStr = jobDescription.substr(0,idxThrowStart+1);//在这之前如果【】后还有内容，则得先取出来，否则这条语句过后那部分内容就没了
+		
+		jobDescription = leftJobStr + rightJobStr;
 	}
 	else//用户没有输入【】部分，默认为杂项
 	{
 		/*string typeStr = "Z";*/
 		m_workType = SUNDRY;
-		jobDescription+="【Z】";
+		workStr = "【Z】";
 	}
 	
 

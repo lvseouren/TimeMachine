@@ -41,6 +41,7 @@ private:
 	Itime startTime;
 	Itime endTime;
 	string jobDescription;
+	string workStr;//use to save¡¾¡¿
 	workType m_workType;
 
 	//auxiliary method
