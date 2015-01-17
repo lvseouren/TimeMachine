@@ -27,12 +27,9 @@ void Record::SaveToFile(const string& filename,const string& openType)
 	string timeLenStr = (endTime-startTime).ItimeLenToString();
 	
 	string result;
-	//if(m_workType != SUNDRY)
+
 	result = timeStr+"！！("+timeLenStr+")！！"+jobDescription+workStr+"\n";
-	//else
-	//{
-	//	result = timeStr+"！！("+timeLenStr+")！！"+jobDescription+"\n";
-	//}
+
 	FILE* file;
 	fopen_s(&file,filename.c_str(),openType.c_str());
 	fprintf(file,result.c_str());
