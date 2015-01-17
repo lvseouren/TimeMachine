@@ -276,7 +276,7 @@ void quit(vector<Record*>& RecordArray)//q
 				
 	//todo:将该条记录写到文件中去
 				
-	(*RecordArray.back()).SaveToFile(filename,"a");
+	(*RecordArray.back()).SaveToFile(filename,"a",recordSave);
 }
 
 void SaveRecord(vector<Record*>& RecordArray)//e
@@ -293,7 +293,7 @@ void SaveRecord(vector<Record*>& RecordArray)//e
 				
 	//todo:将该条记录写到文件中去
 				
-	(*RecordArray.back()).SaveToFile(filename,"a");			
+	(*RecordArray.back()).SaveToFile(filename,"a",recordSave);			
 }
 
 //超过时间自动生成B记录
@@ -309,7 +309,7 @@ void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 	}
 	lastRecordTime = currentTime;
 					
-	BTimeRecord->SaveToFile(filename,"a");
+	BTimeRecord->SaveToFile(filename,"a",recordSave);
 
 	RecordArray.push_back(BTimeRecord);
 }

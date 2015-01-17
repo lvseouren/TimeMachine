@@ -125,7 +125,7 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 			first = false;
 		}
 		//TODO:修改SaveToFile，使之接受filename作为参数
-		(*iter).SaveToFile(filename,"a");
+		(*iter).SaveToFile(filename,"a",statSave);
 	}
 
 	//两类工作之间空一行

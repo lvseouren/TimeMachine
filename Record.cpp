@@ -21,14 +21,20 @@ void Record::SetJob(string job)
 	jobDescription = job;
 	GetTypeFromJobStr();
 }
-void Record::SaveToFile(const string& filename,const string& openType)
+void Record::SaveToFile(const string& filename,const string& openType,saveType savetype)
 {
 	string timeStr = GetTimeString();
 	string timeLenStr = (endTime-startTime).ItimeLenToString();
 	
 	string result;
-
-	result = timeStr+"！！("+timeLenStr+")！！"+jobDescription+workStr+"\n";
+	
+	result = timeStr+"！！("+timeLenStr+")！！"+jobDescription;
+	//only save record ,the‐／ will be output
+	if(savetype == recordSave)
+	{
+		result += workStr;
+	}
+	result += "\n";
 
 	FILE* file;
 	fopen_s(&file,filename.c_str(),openType.c_str());

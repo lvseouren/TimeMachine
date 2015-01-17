@@ -22,7 +22,12 @@ enum workType
 	SUNDRY = 7,
 	WASTETIME = 8
 };
-
+//用于saveTofile函数，区别保存记录还是统计两种情况，以决定是否输出【】
+enum saveType
+{
+	recordSave = 0,
+	statSave = 1
+};
 class Record
 {
 public:
@@ -32,7 +37,7 @@ public:
 	void SetStartTime(Itime T);
 	void SetJob(string jobStr);
 	void SetEndTime(Itime T);
-	void SaveToFile(const string&,const string&);
+	void SaveToFile(const string&,const string&,saveType);
 	workType GetWorkType();
 	Itime GetJobTimeLength();
 	//重载<<
