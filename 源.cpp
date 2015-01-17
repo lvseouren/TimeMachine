@@ -41,6 +41,7 @@ void TestRead();//r
 void quit(vector<Record*>& RecordArray);//q
 void SaveRecord(vector<Record*>& RecordArray);//e
 void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime);//B
+bool isPassDay(Itime& currentTime);//跨日处理逻辑
 //end function
 
 
@@ -49,7 +50,7 @@ string filename;
 Itime lastRecordTime;
 STATE currentState;
 const int BATTIMESWITCH = 600;//这是个以秒为单位的时间，超过这个时间不记录就会自动生成一条Btime记录
-
+const string FILEPATH = "D:\\文档\\时光机\\"; 
 //end global variable
 
 void main()
@@ -63,7 +64,8 @@ void main()
 	vector<Record*> RecordArray;
 
 
-	filename = "D:\\文档\\时光机\\";//todo:将文件名称改为当天的日期
+	//filename = "D:\\文档\\时光机\\";//todo:将文件名称改为当天的日期
+	filename = FILEPATH;
 	filename = filename+lastRecordTime.ItimeToFileString();
 	
 	char *safeInput = new char[128];//用来过滤结束讯号的输入
@@ -172,7 +174,13 @@ void main()
 //以下为从main中提取出来的函数
 void DoStatistic()
 {
-	RecordFileReader reader(filename);
+	//file to statistic 
+	string fileToStat = "D:\\文档\\时光机\\";
+	Itime _1_16(2015,1,16,0,0,0);
+	fileToStat += _1_16.ItimeToFileString();
+
+	/*RecordFileReader reader(filename);*/
+	RecordFileReader reader(fileToStat);
 			
 	vector<Record> todayRecordArray = reader.GetRecordArray();
 
@@ -183,7 +191,9 @@ void DoStatistic()
 	//将数据写入到文件中
 	//TODO: 统计哪天的数据就保存到哪天的统计文件中去
 	string stFilename = "D:\\文档\\时光机\\统计\\";
-	stFilename += lastRecordTime.ItimeToFileString();
+	/*stFilename += lastRecordTime.ItimeToFileString();*/
+	
+	stFilename += _1_16.ItimeToFileString();
 	RecStatter.PrintResult(stFilename);
 
 	cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
@@ -212,6 +222,12 @@ void quit(vector<Record*>& RecordArray)//q
 {
 	currentState=NORECORD;
 	Itime currentTime = GetCurrentTime();
+
+	//如果跨日了，更新filename使之存储到新的文件中
+	if(isPassDay(currentTime))
+	{
+		filename = FILEPATH+currentTime.ItimeToFileString();
+	}
 	lastRecordTime = currentTime;
 	(*RecordArray.back()).SetEndTime(currentTime);
 				
@@ -224,6 +240,11 @@ void SaveRecord(vector<Record*>& RecordArray)//e
 {
 	currentState=NORECORD;
 	Itime currentTime = GetCurrentTime();
+	//如果跨日了，更新filename使之存储到新的文件中
+	if(isPassDay(currentTime))
+	{
+		filename = FILEPATH+currentTime.ItimeToFileString();
+	}
 	lastRecordTime = currentTime;
 	(*RecordArray.back()).SetEndTime(currentTime);
 				
@@ -237,9 +258,21 @@ void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 {
 	Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦【B】");
 	BTimeRecord->SetJob("这段时间啥事没做，注意了，你在浪费时间哦【B】");
+
+	//如果跨日了，更新filename使之存储到新的文件中
+	if(isPassDay(currentTime))
+	{
+		filename = FILEPATH+currentTime.ItimeToFileString();
+	}
 	lastRecordTime = currentTime;
 					
 	BTimeRecord->SaveToFile(filename,"a");
 
 	RecordArray.push_back(BTimeRecord);
+}
+
+bool isPassDay(Itime& currentTime)//when add const ,it can't pass compile--why?
+{
+	if(currentTime < lastRecordTime)
+		return true;
 }

@@ -74,9 +74,9 @@ string Itime::ItimeLenToString()
 	if(hour<0)
 	{
 		hour+=24;
-		//说明跨天了，将记录写到新的文件中
-		Itime curTime = GetCurrentTime();
-		filename = "D:\\文档\\时光机\\"+ curTime.ItimeToFileString();
+		//说明跨天了，将记录写到新的文件中——it doesn't work any more ,because operator- has fix the hour so hour is always >= 0;
+		/*Itime curTime = GetCurrentTime();
+		filename = "D:\\文档\\时光机\\"+ curTime.ItimeToFileString();*/
 	}
 	if(minute<0)
 	{
@@ -141,6 +141,19 @@ Itime Itime::operator+=(const Itime& rhs)
 	return Itime(year+=rhs.year,month+=rhs.month,day+=rhs.day,hour=h,minute=m,second=s);
 }
 
+bool Itime::operator<(const Itime& rhs)
+{
+	if(day<rhs.day)
+		return true;
+	else if(hour<rhs.hour)
+		return true;
+	else if(minute<rhs.minute)
+		return true;
+	else if(second<rhs.second)
+		return true;
+	else
+		return false;
+}
 Itime StrConvertToItime(const string&timeStr)
 {
 	int startHour;

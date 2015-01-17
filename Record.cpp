@@ -1,6 +1,7 @@
 #include"Record.h"
 extern string filename;
 
+
 Record::Record(Itime t1,Itime t2,string job):startTime(t1),endTime(t2),jobDescription(job)
 {
 	
@@ -124,3 +125,4 @@ ostream& operator<<(ostream& os,const Record& record)
 	os<<"¹¤×÷£º"<<record.jobDescription<<endl;
 	return os;
 }
+
