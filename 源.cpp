@@ -1,5 +1,6 @@
 //TODO:重构main函数，使用extract method方法。
 //TODO:统计输出中增加总计时间这一项
+//TODO:增加一个逻辑分支：当输入'i'时才进行手动输入统计日期，否则't'默认为对当天进行统计
 //start lib 
 #include<iostream>
 #include<string>
@@ -36,12 +37,13 @@ enum STATE
 
 
 //start function declare
-void DoStatistic();//t
+void DoStatistic(const char&);//t
 void TestRead();//r
 void quit(vector<Record*>& RecordArray);//q
 void SaveRecord(vector<Record*>& RecordArray);//e
 void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime);//B
 bool isPassDay(Itime& currentTime);//跨日处理逻辑
+string StrToFilename(const string& dateStr);//根据用户输入的日期生成对应文件名
 //end function
 
 
@@ -142,10 +144,10 @@ void main()
 				//测试记录读取器功能
 				TestRead();
 			}
-			else if(controlFlag == 't')//统计，将结果写入到当日统计文件中去
+			else if(controlFlag == 't' || controlFlag == 'i')//统计，将结果写入到当日统计文件中去
 			{
 				//进行统计：
-				DoStatistic();
+				DoStatistic(controlFlag);
 			}
 			else
 			{
@@ -172,12 +174,24 @@ void main()
 }
 
 //以下为从main中提取出来的函数
-void DoStatistic()
+void DoStatistic(const char& flag)
 {
-	//file to statistic 
 	string fileToStat = "D:\\文档\\时光机\\";
-	Itime _1_16(2015,1,16,0,0,0);
-	fileToStat += _1_16.ItimeToFileString();
+	string finalDateStr;
+	//根据flag是i还是t来选择是默认统计还是指定统计
+	if( 'i' == flag )
+	{
+	cout<<"请输入要统计的日期（格式为year-month-day,格式不对后果自负):";
+	string dateStr;
+	cin>>dateStr;
+	finalDateStr = StrToFilename(dateStr);
+	}
+	else//t,默认统计
+	{
+		finalDateStr = lastRecordTime.ItimeToFileString();
+	}
+
+	fileToStat += finalDateStr;
 
 	/*RecordFileReader reader(filename);*/
 	RecordFileReader reader(fileToStat);
@@ -193,10 +207,39 @@ void DoStatistic()
 	string stFilename = "D:\\文档\\时光机\\统计\\";
 	/*stFilename += lastRecordTime.ItimeToFileString();*/
 	
-	stFilename += _1_16.ItimeToFileString();
+	stFilename += finalDateStr;
 	RecStatter.PrintResult(stFilename);
 
 	cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
+}
+string StrToFilename(const string& dateStr)
+{
+	//TODO:hour,min,sec change to year month day;
+	int startYear;
+	int endYear;
+	int startMon;
+	int endMon;
+	int startDay;
+	int endDay;
+
+	//以下算法的前提是,"-"只占用一个字符的长度
+	string test = "-";
+	int lengh = test.length();
+
+	startYear = 0;
+	endYear = dateStr.find('-')-1;
+
+	startMon = endYear+2;
+	endMon = dateStr.rfind('-')-1;
+
+	startDay = endMon+2;
+	endDay = dateStr.length()-1;
+
+	string yearStr = dateStr.substr(startYear,endYear-startYear+1);
+	string monStr = dateStr.substr(startMon,endMon-startMon+1);
+	string dayStr = dateStr.substr(startDay,endDay-startDay+1);
+
+	return yearStr+"年"+monStr+"月"+dayStr+"日.txt";
 }
 
 void TestRead()

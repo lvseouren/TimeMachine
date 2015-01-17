@@ -93,8 +93,16 @@ void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& 
 	indexBeginEndTimeStr = indexEndStartTimeStr+1;
 	indexEndEndTimeStr = recordStr.find("——")-1;
 
-	indexBeginJobStr = recordStr.rfind("——")+length;
-	indexEndJobStr = recordStr.length()-2;
+	//处理当record中不存在“——”时，即空行时的情况
+	if(-1 != recordStr.rfind("——"))
+	{
+		indexBeginJobStr = recordStr.rfind("——")+length;
+		indexEndJobStr = recordStr.length()-2;
+	}
+	else
+	{
+		jobDescription = "";
+	}
 
 	startTimeStr = recordStr.substr(indexBeginStartTimeStr,indexEndStartTimeStr);
 	endTimeStr = recordStr.substr(indexBeginEndTimeStr,indexEndEndTimeStr-indexBeginEndTimeStr+1);
