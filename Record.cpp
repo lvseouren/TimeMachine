@@ -26,7 +26,7 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	//Change timeStr,remove the startTime part,cuz it has output to the file already
 	//string timeStr = GetTimeString();
 	string timeStr = "~" + endTime.ItimeToString();
-	if(savetype = statSave)
+	if(savetype == statSave)
 	{
 		 timeStr = GetTimeString();
 	}
