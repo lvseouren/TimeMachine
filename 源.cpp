@@ -1,6 +1,6 @@
 //TODO:重构main函数，使用extract method方法。
 //TODO:统计输出中增加总计时间这一项
-//TODO:增加一个逻辑分支：当输入'i'时才进行手动输入统计日期，否则't'默认为对当天进行统计
+//TODO:开始一个工作计时立刻将开始时间输出，结束时补上后面部分
 //start lib 
 #include<iostream>
 #include<string>
@@ -106,6 +106,12 @@ void main()
 			RecordArray.push_back(newRecord);
 			newRecord->SetStartTime(currentTime);
 			newRecord->SetJob(job);
+			
+			//output the start time to the file
+			FILE* file;
+			fopen_s(&file,filename.c_str(),"a");
+			fprintf(file,currentTime.ItimeToString().c_str());
+			fclose(file);
 
 			currentState = RECORDING;
 			cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";			

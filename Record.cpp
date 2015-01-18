@@ -23,7 +23,9 @@ void Record::SetJob(string job)
 }
 void Record::SaveToFile(const string& filename,const string& openType,saveType savetype)
 {
-	string timeStr = GetTimeString();
+	//Change timeStr,remove the startTime part,cuz it has output to the file already
+	//string timeStr = GetTimeString();
+	string timeStr = "~" + endTime.ItimeToString();
 	string timeLenStr = (endTime-startTime).ItimeLenToString();
 	
 	string result;
@@ -42,6 +44,7 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	fclose(file);
 	//todo:开始时间，结束时间也要写到文件中去；工作耗时也要写到文件中去（可在record中新添加一个字段）；记录之后换行
 }
+
 
 string Record::GetTimeString()
 {
