@@ -24,7 +24,7 @@ private:
 	vector<Record> recordArray;
 private:
 	void Parse();//解析从文件中读取到的string数组,call RawParse() in for()
-	void RawParse(const string&,Itime&,Itime&,string&);//parse a raw record
+	bool RawParse(const string&,Itime&,Itime&,string&);//parse a raw record
 	void Read();//从文件中读取Record数据，一行读到一个string中去。
 public:
 	RecordFileReader();

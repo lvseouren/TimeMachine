@@ -58,16 +58,19 @@ void RecordFileReader::Parse()
 		Itime startTime;
 		Itime endTime;
 		string jobDescription;
-		RawParse(*itr,startTime,endTime,jobDescription);
-
-		newRecord->SetStartTime(startTime);
-		newRecord->SetEndTime(endTime);
-		newRecord->SetJob(jobDescription);
-		recordArray.push_back(*newRecord);
+		//如果行的信息不完全，则丢弃这个记录
+		bool result = RawParse(*itr,startTime,endTime,jobDescription);
+		if(result)
+		{
+			newRecord->SetStartTime(startTime);
+			newRecord->SetEndTime(endTime);
+			newRecord->SetJob(jobDescription);
+			recordArray.push_back(*newRecord);
+		}
 	}
 }
 
-void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& endTime,string& jobDescription)
+bool RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& endTime,string& jobDescription)
 {
 	//TODO:实现字符串中截取以上数据的算法（两步，第一步：截取对应的字符串，第二部：字符串中取得int型数据）
 
@@ -101,7 +104,8 @@ void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& 
 	}
 	else
 	{
-		jobDescription = "";
+		//信息不完全，丢弃这个记录
+		return false;
 	}
 
 	startTimeStr = recordStr.substr(indexBeginStartTimeStr,indexEndStartTimeStr);
@@ -112,5 +116,6 @@ void RecordFileReader::RawParse(const string& recordStr,Itime& startTime,Itime& 
 	startTime = StrConvertToItime(startTimeStr);
 	endTime = StrConvertToItime(endTimeStr);
 
+	return true;
 }
 

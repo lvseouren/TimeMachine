@@ -107,19 +107,21 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 
 	bool first = true;
 	bool hasData = false;
+	
+	//第一次写入，先清空原有数据
+	if(isFirstWrite)
+	{
+		fopen_s(&file,filename.c_str(),"w");
+		fclose(file);
+		isFirstWrite = false;
+	}
 	for(iter = vecRecord.begin();iter!=vecRecord.end();++iter)
 	{
 		//TODO:写到文件中
 		hasData = true;
-		if(first)//将原有数据清除，重新生成统计数据
+		if(first)//一类记录的开始，输出标题
 		{
-			string openType = "a";
-			if(isFirstWrite)
-			{
-				openType = "w";
-				isFirstWrite = false;
-			}
-			fopen_s(&file,filename.c_str(),openType.c_str());
+			fopen_s(&file,filename.c_str(),"a");
 			fprintf_s(file,"——今日%s总时间为:%s,以下为%s列表：\n",workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
 			fclose(file);
 			first = false;

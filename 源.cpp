@@ -1,6 +1,6 @@
-//TODO:重构main函数，使用extract method方法。
+//TODO:重构main函数，使用extract method方法。——DONE
 //TODO:统计输出中增加总计时间这一项
-//TODO:开始一个工作计时立刻将开始时间输出，结束时补上后面部分
+//TODO:开始一个工作计时立刻将开始时间输出，结束时补上后面部分——DONE
 //start lib 
 #include<iostream>
 #include<string>
