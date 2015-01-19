@@ -315,7 +315,7 @@ void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 	}
 	lastRecordTime = currentTime;
 					
-	BTimeRecord->SaveToFile(filename,"a",recordSave);
+	BTimeRecord->SaveToFile(filename,"a",statSave);
 
 	RecordArray.push_back(BTimeRecord);
 }
