@@ -44,6 +44,8 @@ void SaveRecord(vector<Record*>& RecordArray);//e
 void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime);//B
 bool isPassDay(Itime& currentTime);//跨日处理逻辑
 string StrToFilename(const string& dateStr);//根据用户输入的日期生成对应文件名
+void CalculStartDate(int& year,int& month,int& startDay,const Itime& Today);
+void tenStatistic();
 //end function
 
 
@@ -155,6 +157,11 @@ void main()
 				//进行统计：
 				DoStatistic(controlFlag);
 			}
+			else if(controlFlag == 'g')
+			{
+				//TODO:十日统计
+				tenStatistic();
+			}
 			else
 			{
 				//不合法输入
@@ -214,7 +221,7 @@ void DoStatistic(const char& flag)
 	/*stFilename += lastRecordTime.ItimeToFileString();*/
 	
 	stFilename += finalDateStr;
-	RecStatter.PrintResult(stFilename);
+	RecStatter.PrintResult(stFilename,false);
 
 	cout<<"计时中，请输入 e 来结束当前工作的计时(要结束程序请输入q)：";
 }
@@ -324,4 +331,51 @@ bool isPassDay(Itime& currentTime)//when add const ,it can't pass compile--why?
 {
 	if(currentTime < lastRecordTime)
 		return true;
+}
+
+void tenStatistic()
+{
+	string tenFilename[10];//TODO:根据当前日期给此字符串数组赋值
+
+	Itime Today = GetCurrentTime();
+	int _year;
+	int _month;
+	int _startDay;
+	//TODO:calculate the year month and startday
+	CalculStartDate(_year,_month,_startDay,Today);
+	string preStr = "D:\\文档\\时光机\\";
+	for(int i = 0;i<10;i++)
+	{
+		char d[128];
+		sprintf_s(d,"%d年%d月%d日.txt",_year,_month,_startDay+i);
+		tenFilename[i] = preStr + d;
+	}
+
+	vector<Record> tenRecordArray;
+	vector<Record> temp;
+	for(int i = 0;i<10;++i)
+	{
+		RecordFileReader reader(tenFilename[i]);
+		temp = reader.GetRecordArray();
+		std::copy(temp.begin(), temp.end(), std::back_inserter(tenRecordArray));
+	}
+
+	RecordStatistic RecStatter;
+	RecStatter.makeStatistic(tenRecordArray);
+				
+
+	//将数据写入到文件中
+	string stFilename = "D:\\文档\\时光机\\统计\\十日统计\\";
+	
+	string finalStr = "2015年1月中旬统计.txt";//TODO:根据当天的日期返回“y年x月上（中，下）旬时间统计”string
+	stFilename += finalStr;
+	RecStatter.PrintResult(stFilename,true);
+}
+
+void CalculStartDate(int& year,int& month,int& startDay,const Itime& Today)
+{
+	year = Today.year;
+	month = Today.month;
+	int day = Today.day;
+	startDay = (day-1)/10*10+1;
 }

@@ -39,14 +39,14 @@ private:
 	bool isFirstWrite;
 private:
 	//function use by self
-	void PrintSingleTypeRecord(vector<Record>& ,Itime&,const string&,const string&);
+	void PrintSingleTypeRecord(vector<Record>& ,Itime&,const string&,const string&,bool);
 public:
 	RecordStatistic();
 	~RecordStatistic();
 
 public:
 	void makeStatistic(vector<Record>&);
-	void PrintResult(const string&);
+	void PrintResult(const string&,bool);
 };
 
 #endif

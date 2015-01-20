@@ -30,6 +30,7 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	{
 		 timeStr = GetTimeString();
 	}
+
 	string timeLenStr = (endTime-startTime).ItimeLenToString();
 	
 	string result;
@@ -41,6 +42,11 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 		result += workStr;
 	}
 	result += "\n";
+
+	if(savetype == statTenSave)
+	{
+		result = jobDescription + "¡ª¡ª("+timeLenStr+")\n";
+	}
 
 	FILE* file;
 	fopen_s(&file,filename.c_str(),openType.c_str());

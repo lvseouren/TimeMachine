@@ -65,7 +65,7 @@ void RecordStatistic::makeStatistic(vector<Record>& todayRecordArray)
 	}
 }
 
-void RecordStatistic::PrintResult(const string& filename)
+void RecordStatistic::PrintResult(const string& filename,bool tenStat)
 {
 	typedef pair<vector<Record>,pair<string,Itime>> recordPair;
 	vector<recordPair> vecRecStr;//TODO:push_back all vector<record> in here;
@@ -93,11 +93,11 @@ void RecordStatistic::PrintResult(const string& filename)
 	vector<recordPair>::iterator  iterVecRec;
 	for(iterVecRec = vecRecStr.begin();iterVecRec!=vecRecStr.end();++iterVecRec)
 	{
-		PrintSingleTypeRecord(iterVecRec->first,iterVecRec->second.second,iterVecRec->second.first,filename);
+		PrintSingleTypeRecord(iterVecRec->first,iterVecRec->second.second,iterVecRec->second.first,filename,tenStat);
 	}
 }
 
-void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& totalTime,const string& workTypeStr,const string& filename)
+void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& totalTime,const string& workTypeStr,const string& filename,bool isTenStat)
 {
 	//start of output
 	//输出杂项类时间
@@ -122,12 +122,24 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 		if(first)//一类记录的开始，输出标题
 		{
 			fopen_s(&file,filename.c_str(),"a");
-			fprintf_s(file,"——今日%s总时间为:%s,以下为%s列表：\n",workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
+			if(isTenStat)
+			{
+				fprintf_s(file,"——————这十日%s总时间为:【%s】,以下为%s列表：——————\n",workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
+			}
+			else
+			{
+				fprintf_s(file,"——————今日%s总时间为:【%s】,以下为%s列表：——————\n",workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
+			}
 			fclose(file);
 			first = false;
 		}
 		//TODO:修改SaveToFile，使之接受filename作为参数
-		(*iter).SaveToFile(filename,"a",statSave);
+		saveType _saveType;
+		if(isTenStat)
+			_saveType = statTenSave;
+		else
+			_saveType = statSave;
+		(*iter).SaveToFile(filename,"a",_saveType);
 	}
 
 	//两类工作之间空一行
@@ -135,7 +147,14 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 	if(!hasData)
 	{
 		fopen_s(&file,filename.c_str(),"a");
-		fprintf_s(file,"——今日%s总时间为:0\n\n",workTypeStr.c_str());
+		if(isTenStat)
+		{
+			fprintf_s(file,"——————这十日%s总时间为:0——————\n\n",workTypeStr.c_str());
+		}
+		else
+		{
+			fprintf_s(file,"——————今日%s总时间为:0——————\n\n",workTypeStr.c_str());
+		}
 		fclose(file);
 	}
 	else

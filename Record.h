@@ -26,7 +26,8 @@ enum workType
 enum saveType
 {
 	recordSave = 0,
-	statSave = 1
+	statSave = 1,
+	statTenSave  
 };
 class Record
 {
