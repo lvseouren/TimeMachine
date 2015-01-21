@@ -279,7 +279,7 @@ void quit(vector<Record*>& RecordArray)//q
 	currentState=NORECORD;
 	Itime currentTime = GetCurrentTime();
 
-	lastRecordTime = currentTime;
+	
 	(*RecordArray.back()).SetEndTime(currentTime);
 				
 	//todo:将该条记录写到文件中去
@@ -291,6 +291,7 @@ void quit(vector<Record*>& RecordArray)//q
 	{
 		filename = FILEPATH+currentTime.ItimeToFileString();
 	}
+	lastRecordTime = currentTime;
 }
 
 void SaveRecord(vector<Record*>& RecordArray)//e
@@ -298,7 +299,7 @@ void SaveRecord(vector<Record*>& RecordArray)//e
 	currentState=NORECORD;
 	Itime currentTime = GetCurrentTime();
 	
-	lastRecordTime = currentTime;
+	
 	(*RecordArray.back()).SetEndTime(currentTime);
 				
 	//todo:将该条记录写到文件中去
@@ -310,6 +311,7 @@ void SaveRecord(vector<Record*>& RecordArray)//e
 	{
 		filename = FILEPATH+currentTime.ItimeToFileString();
 	}
+	lastRecordTime = currentTime;
 }
 
 //超过时间自动生成B记录
@@ -317,8 +319,6 @@ void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 {
 	Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦【B】");
 	BTimeRecord->SetJob("这段时间啥事没做，注意了，你在浪费时间哦【B】");
-
-	lastRecordTime = currentTime;
 					
 	BTimeRecord->SaveToFile(filename,"a",statSave);
 
@@ -329,6 +329,7 @@ void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 	{
 		filename = FILEPATH+currentTime.ItimeToFileString();
 	}
+	lastRecordTime = currentTime;
 }
 
 bool isPassDay(Itime& currentTime)//when add const ,it can't pass compile--why?
