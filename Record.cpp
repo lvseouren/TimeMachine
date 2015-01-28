@@ -26,6 +26,10 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	//Change timeStr,remove the startTime part,cuz it has output to the file already
 	//string timeStr = GetTimeString();
 	string timeStr = "~" + endTime.ItimeToString();
+	if(savetype == BtSave)
+	{
+		timeStr = startTime.ItimeToString()+"~"+endTime.ItimeToString();
+	}
 
 	string timeLenStr = (endTime-startTime).ItimeLenToString();
 	
@@ -33,7 +37,7 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	
 	result = timeStr+"！！("+timeLenStr+")！！"+jobDescription;
 	//only save record ,the‐／ will be output
-	if(savetype == recordSave)
+	if(savetype == recordSave||savetype == BtSave)
 	{
 		result += workStr;
 	}
@@ -41,6 +45,7 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 
 	if(savetype == statTenSave || savetype == statSave)
 	{
+		timeLenStr = (endTime-startTime).ItimeLenToStatString();
 		result = jobDescription + "！！("+timeLenStr+")\n";
 	}
 

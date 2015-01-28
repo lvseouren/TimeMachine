@@ -68,6 +68,46 @@ string Itime::ItimeToString()
 	return result;
 }
 
+string Itime::ItimeLenToStatString()
+{
+	//修正时间
+	if(hour<0)
+	{
+		hour+=24;
+		//说明跨天了，将记录写到新的文件中——it doesn't work any more ,because operator- has fix the hour so hour is always >= 0;
+		/*Itime curTime = GetCurrentTime();
+		filename = "D:\\文档\\时光机\\"+ curTime.ItimeToFileString();*/
+	}
+	if(minute<0)
+	{
+		--hour;
+		minute+=60;
+	}
+	if(second<0)
+	{
+		--minute;
+		second+=60;
+	}
+
+	string result;
+
+	char TimeSecStr[128];
+	char TimeMinStr[128];
+	char TimeHourStr[128];
+	sprintf_s(TimeSecStr,"%d",second);
+	sprintf_s(TimeMinStr,"%d",minute);
+	sprintf_s(TimeHourStr,"%d",hour);
+	
+	if(hour>0)
+	{
+		result =string("共计") + TimeHourStr+string("h")+TimeMinStr+string("m");
+	}
+	else
+	{
+		result = string("共计") +TimeMinStr+string("m");
+	}
+	return result;
+}
 string Itime::ItimeLenToString()
 {
 	//修正时间

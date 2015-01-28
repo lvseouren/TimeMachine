@@ -317,10 +317,10 @@ void SaveRecord(vector<Record*>& RecordArray)//e
 //超过时间自动生成B记录
 void AutoRecord(vector<Record*>& RecordArray,Itime& currentTime)
 {
-	Record *BTimeRecord = new Record(lastRecordTime,currentTime,"这段时间啥事没做，注意了，你在浪费时间哦【B】");
-	BTimeRecord->SetJob("这段时间啥事没做，注意了，你在浪费时间哦【B】");
+	Record *BTimeRecord = new Record(lastRecordTime,currentTime,"x");
+	BTimeRecord->SetJob(string("这段时间啥事没做，注意了，你在浪费时间哦【B】"));
 					
-	BTimeRecord->SaveToFile(filename,"a",statSave);
+	BTimeRecord->SaveToFile(filename,"a",BtSave);
 
 	RecordArray.push_back(BTimeRecord);
 

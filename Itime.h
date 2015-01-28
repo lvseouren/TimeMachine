@@ -26,6 +26,8 @@ struct Itime
 	string ItimeToString();
 	//此函数用来返回工作计时字符串
 	string ItimeLenToString();
+	//此函数用来返回统计计时字符串
+	string ItimeLenToStatString();
 	//此函数用来返回文件名字符串
 	string ItimeToFileString();
 

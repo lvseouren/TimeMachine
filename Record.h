@@ -27,7 +27,8 @@ enum saveType
 {
 	recordSave = 0,
 	statSave = 1,
-	statTenSave  
+	statTenSave,
+	BtSave
 };
 class Record
 {
