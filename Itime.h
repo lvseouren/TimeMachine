@@ -20,6 +20,7 @@ struct Itime
 	//todo:添加一个method，输入Itime，输出以秒为单位的整数
 	Itime operator-(const Itime& rhs);
 	Itime operator+=(const Itime& rhs);
+	Itime operator+(const Itime& rhs);
 	bool operator<(const Itime& rhs);
 
 	int ItimeToSecond();

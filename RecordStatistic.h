@@ -36,6 +36,8 @@ private:
 	Itime sundryTime;
 	Itime codeTime;
 
+	Itime statTimeLen;//统计时间总长度
+
 	bool isFirstWrite;
 private:
 	//function use by self

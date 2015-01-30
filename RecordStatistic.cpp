@@ -10,6 +10,7 @@ RecordStatistic::RecordStatistic():learnTime(0,0,0,0,0,0),
 				 playTime(0,0,0,0,0,0),
 				 sundryTime(0,0,0,0,0,0),
 				 codeTime(0,0,0,0,0,0),
+				 statTimeLen(0,0,0,0,0,0),
 				 isFirstWrite(true)
 {}
 RecordStatistic::~RecordStatistic()
@@ -63,6 +64,8 @@ void RecordStatistic::makeStatistic(vector<Record>& todayRecordArray)
 			break;
 		}
 	}
+	//TODO:重载Itime的operator +
+	statTimeLen = learnTime + writeTime + readTime + badTime+workTime+trainTime+playTime+sundryTime+codeTime;
 }
 
 void RecordStatistic::PrintResult(const string& filename,bool tenStat)
@@ -112,6 +115,7 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 	if(isFirstWrite)
 	{
 		fopen_s(&file,filename.c_str(),"w");
+		fprintf_s(file,"总统计时间为：%s\n\n",statTimeLen.ItimeLenToString().c_str());
 		fclose(file);
 		isFirstWrite = false;
 	}
@@ -128,7 +132,8 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 			}
 			else
 			{
-				fprintf_s(file,"——————今日%s总时间为:【%s】,以下为%s列表：——————\n",workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
+				fprintf_s(file,"——————今日%s总时间为:【%s】,以下为%s列表：——————\n",
+					workTypeStr.c_str(),totalTime.ItimeLenToString().c_str(),workTypeStr.c_str());
 			}
 			fclose(file);
 			first = false;

@@ -180,7 +180,13 @@ Itime Itime::operator+=(const Itime& rhs)
 	}
 	return Itime(year+=rhs.year,month+=rhs.month,day+=rhs.day,hour=h,minute=m,second=s);
 }
-
+Itime Itime::operator+(const Itime& rhs)
+{
+	Itime temp(0,0,0,0,0,0);
+	temp += *this;
+	temp += rhs;
+	return temp;
+}
 bool Itime::operator<(const Itime& rhs)
 {
 	if(day<rhs.day)
