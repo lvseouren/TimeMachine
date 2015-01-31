@@ -372,7 +372,9 @@ void tenStatistic()
 	//将数据写入到文件中
 	string stFilename = "D:\\文档\\时光机\\统计\\十日统计\\";
 	
-	string finalStr = "2015年1月中旬统计.txt";//TODO:根据当天的日期返回“y年x月上（中，下）旬时间统计”string
+	//TODO:GetTenStatFileName()
+	
+	string finalStr = Today.GetTenStatFileName();
 	stFilename += finalStr;
 	RecStatter.PrintResult(stFilename,true);
 }
@@ -382,5 +384,5 @@ void CalculStartDate(int& year,int& month,int& startDay,const Itime& Today)
 	year = Today.year;
 	month = Today.month;
 	int day = Today.day;
-	startDay = (day-1)/10*10+1;
+	startDay = (day-2)/10*10+1;
 }

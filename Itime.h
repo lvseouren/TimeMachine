@@ -31,7 +31,8 @@ struct Itime
 	string ItimeLenToStatString();
 	//此函数用来返回文件名字符串
 	string ItimeToFileString();
-
+	//此函数返回十日统计文件名字符串
+	string GetTenStatFileName();
 	friend ostream& operator<<(ostream&,Itime);
 };
 Itime GetCurrentTime();

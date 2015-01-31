@@ -232,7 +232,24 @@ Itime StrConvertToItime(const string&timeStr)
 
 	return Itime(0,0,0,hour,min,sec);
 }
+string Itime::GetTenStatFileName()
+{
+	char TimeYearStr[128];
+	char TimeMonthStr[128];
 
+	sprintf_s(TimeYearStr,"%d",year);
+	sprintf_s(TimeMonthStr,"%d",month);
+
+	string xStr;
+	if(day<=10)
+		xStr = "上旬";
+	else if(day <= 20)
+		xStr = "中旬";
+	else 
+		xStr = "下旬";
+	string result = TimeYearStr + string("年") + TimeMonthStr + string("月") + xStr + string("十日统计.txt");
+	return result;
+}
 Itime GetCurrentTime()//放到time.h中去
 {
 	time_t now;
