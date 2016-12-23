@@ -169,3 +169,5 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 		fclose(file);
 	}
 }
+
+//branch_test_2:modify1
