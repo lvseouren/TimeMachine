@@ -170,4 +170,8 @@ void RecordStatistic::PrintSingleTypeRecord(vector<Record>& vecRecord, Itime& to
 	}
 }
 
+//branch2 merge branch1
 //branch_test_2:modify1
+
+//Branch_test_1:modify
+
