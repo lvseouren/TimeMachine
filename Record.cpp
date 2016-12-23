@@ -35,8 +35,8 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	
 	string result;
 	
-	result = timeStr+"â€”â€”("+timeLenStr+")â€”â€”"+jobDescription;
-	//only save record ,theã€ã€‘ will be output
+	result = timeStr+"¡ª¡ª("+timeLenStr+")¡ª¡ª"+jobDescription;
+	//only save record ,the¡¾¡¿ will be output
 	if(savetype == recordSave||savetype == BtSave)
 	{
 		result += workStr;
@@ -46,14 +46,14 @@ void Record::SaveToFile(const string& filename,const string& openType,saveType s
 	if(savetype == statTenSave || savetype == statSave)
 	{
 		timeLenStr = (endTime-startTime).ItimeLenToStatString();
-		result = jobDescription + "â€”â€”("+timeLenStr+")\n";
+		result = jobDescription + "¡ª¡ª("+timeLenStr+")\n";
 	}
 
 	FILE* file;
 	fopen_s(&file,filename.c_str(),openType.c_str());
 	fprintf(file,result.c_str());
 	fclose(file);
-	//todo:å¼€å§‹æ—¶é—´ï¼Œç»“æŸæ—¶é—´ä¹Ÿè¦å†™åˆ°æ–‡ä»¶ä¸­å»ï¼›å·¥ä½œè€—æ—¶ä¹Ÿè¦å†™åˆ°æ–‡ä»¶ä¸­å»ï¼ˆå¯åœ¨recordä¸­æ–°æ·»åŠ ä¸€ä¸ªå­—æ®µï¼‰ï¼›è®°å½•ä¹‹åæ¢è¡Œ
+	//todo:¿ªÊ¼Ê±¼ä£¬½áÊøÊ±¼äÒ²ÒªĞ´µ½ÎÄ¼şÖĞÈ¥£»¹¤×÷ºÄÊ±Ò²ÒªĞ´µ½ÎÄ¼şÖĞÈ¥£¨¿ÉÔÚrecordÖĞĞÂÌí¼ÓÒ»¸ö×Ö¶Î£©£»¼ÇÂ¼Ö®ºó»»ĞĞ
 }
 
 
@@ -71,75 +71,75 @@ void Record::GetTypeFromJobStr()
 	int idxStart;
 	int idxEnd;
 
-	idxStart = jobDescription.find("ã€")+2;
-	idxEnd = jobDescription.find("ã€‘")-1;
+	idxStart = jobDescription.find("¡¾")+2;
+	idxEnd = jobDescription.find("¡¿")-1;
 	if(idxEnd>=idxStart)
 	{
 		typeStr = jobDescription.substr(idxStart,idxEnd-idxStart+1);
 		if(typeStr.compare("L") == 0)
 		{
 			m_workType = LEARN;
-			workStr = "ã€Lã€‘";
+			workStr = "¡¾L¡¿";
 		}
 		else if(typeStr.compare("W") == 0)
 		{
 			m_workType = WRITE;
-			workStr = "ã€Wã€‘";
+			workStr = "¡¾W¡¿";
 		}
 		else if(typeStr.compare("R") == 0)
 		{
 			m_workType = READ;
-			workStr = "ã€Rã€‘";
+			workStr = "¡¾R¡¿";
 		}
 		else if(typeStr.compare("T") == 0)
 		{
 			m_workType = TRAIN;
-			workStr = "ã€Tã€‘";
+			workStr = "¡¾T¡¿";
 		}
 		else if(typeStr.compare("P") == 0)
 		{
 			m_workType = ENTERTAINMENT;
-			workStr = "ã€Pã€‘";
+			workStr = "¡¾P¡¿";
 		}
 		else if(typeStr.compare("WK") == 0)
 		{
 			m_workType = WORK;
-			workStr = "ã€WKã€‘";
+			workStr = "¡¾WK¡¿";
 		}
 		else if(typeStr.compare("C") == 0)
 		{
 			m_workType = CODING;
-			workStr = "ã€Cã€‘";
+			workStr = "¡¾C¡¿";
 		}
 		else if(typeStr.compare("B") == 0)
 		{
 			m_workType = WASTETIME;
-			workStr = "ã€Bã€‘";
+			workStr = "¡¾B¡¿";
 		}
-		else//å¦‚æœè¾“å…¥é™¤äº†ä»¥ä¸Šçš„å­—ç¬¦ä¸²ï¼Œåˆ™è§†ä¸ºæ‚é¡¹
+		else//Èç¹ûÊäÈë³ıÁËÒÔÉÏµÄ×Ö·û´®£¬ÔòÊÓÎªÔÓÏî
 		{
 			m_workType = SUNDRY;
-			workStr = "ã€Zã€‘";	
+			workStr = "¡¾Z¡¿";	
 		}
-		//TODO:å»é™¤jobDescriptionä¸­çš„ã€ã€‘
+		//TODO:È¥³ıjobDescriptionÖĞµÄ¡¾¡¿
 		int idxThrowStart = idxStart-3;
 		int idxThrowEnd = idxEnd+3;
 		int jobStrEnd = jobDescription.length()-1;
 		string leftJobStr;
 		string rightJobStr; 
-		if(idxThrowEnd <= jobStrEnd)//å¦‚æœã€ã€‘åé¢è¿˜æœ‰å­—ç¬¦ï¼Œåˆ™åŠ åˆ°jobDescriptionä¸­å»ã€‚
+		if(idxThrowEnd <= jobStrEnd)//Èç¹û¡¾¡¿ºóÃæ»¹ÓĞ×Ö·û£¬Ôò¼Óµ½jobDescriptionÖĞÈ¥¡£
 		{
 			rightJobStr = jobDescription.substr(idxThrowEnd,jobStrEnd-idxThrowEnd+ 1);
 		}
-		leftJobStr = jobDescription.substr(0,idxThrowStart+1);//åœ¨è¿™ä¹‹å‰å¦‚æœã€ã€‘åè¿˜æœ‰å†…å®¹ï¼Œåˆ™å¾—å…ˆå–å‡ºæ¥ï¼Œå¦åˆ™è¿™æ¡è¯­å¥è¿‡åé‚£éƒ¨åˆ†å†…å®¹å°±æ²¡äº†
+		leftJobStr = jobDescription.substr(0,idxThrowStart+1);//ÔÚÕâÖ®Ç°Èç¹û¡¾¡¿ºó»¹ÓĞÄÚÈİ£¬ÔòµÃÏÈÈ¡³öÀ´£¬·ñÔòÕâÌõÓï¾ä¹ıºóÄÇ²¿·ÖÄÚÈİ¾ÍÃ»ÁË
 		
 		jobDescription = leftJobStr + rightJobStr;
 	}
-	else//ç”¨æˆ·æ²¡æœ‰è¾“å…¥ã€ã€‘éƒ¨åˆ†ï¼Œé»˜è®¤ä¸ºæ‚é¡¹
+	else//ÓÃ»§Ã»ÓĞÊäÈë¡¾¡¿²¿·Ö£¬Ä¬ÈÏÎªÔÓÏî
 	{
 		/*string typeStr = "Z";*/
 		m_workType = SUNDRY;
-		workStr = "ã€Zã€‘";
+		workStr = "¡¾Z¡¿";
 	}
 	
 
@@ -156,15 +156,11 @@ Itime Record::GetJobTimeLength()
 
 ostream& operator<<(ostream& os,const Record& record)
 {
-	//TODO:é‡è½½Itimeç±»çš„<<æ“ä½œç¬¦ã€‚ã€‚
+	//TODO:ÖØÔØItimeÀàµÄ<<²Ù×÷·û¡£¡£
 	os<<record.startTime<<"~"<<record.endTime<<endl;
-	os<<"å·¥ä½œï¼š"<<record.jobDescription<<endl;
+	os<<"¹¤×÷£º"<<record.jobDescription<<endl;
 	return os;
 }
 
-//merge!branch2 into branch1!
-//branch_test2:modify2
-
 
 //branch_test_1:modify2
-
